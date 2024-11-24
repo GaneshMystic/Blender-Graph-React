@@ -1,33 +1,14 @@
-import { Node, Position } from '@xyflow/react'
-import { CSSProperties, JSX, ReactElement, useMemo } from 'react'
+import { Position } from '@xyflow/react'
+import { useMemo } from 'react'
 import { NodeHeader } from './NodeHeader'
-import {
-  GraphConfig,
-  NodeConfig,
-  NodeKindConfig,
-  NodeInputConfig,
-  NodeOutputConfig,
-} from '../config'
 import { Handle } from './Handle'
 import { useNodeCollapsed } from '../hooks/node'
-import { useGraphStore } from '../context/GraphContext.tsx'
+import { useGraphStore } from '../context/GraphContext.jsx'
 
-type NodeContainerProps = {
-  node: Node
-  draggable?: boolean
-  styles?: CSSProperties
-  children?: ReactElement | ReactElement[]
-}
-
-export function NodeContainer({
-  draggable,
-  node,
-  styles,
-  children,
-}: NodeContainerProps) {
+export function NodeContainer({ draggable, node, styles, children }) {
   const config = useGraphStore((store) => store.config)
   const slots = useGraphStore((store) => store.slots)
-  const nodeConfig = config.getNodeConfig(node.type!)!
+  const nodeConfig = config.getNodeConfig(node.type)
   const nodeKindConfig = config.getNodeKindConfig(nodeConfig.kind)
   const [collapsed, toggleCollapsed] = useNodeCollapsed()
 
@@ -70,19 +51,12 @@ export function NodeContainer({
   }
 }
 
-type CollapsedNodeContainerProps = {
-  node: Node
-  nodeConfig: NodeConfig
-  nodeKindConfig: NodeKindConfig
-  toggleCollapsed?: () => void
-}
-
 function CollapsedNodeContainer({
   node,
   nodeConfig,
   nodeKindConfig,
   toggleCollapsed,
-}: CollapsedNodeContainerProps) {
+}) {
   const config = useGraphStore((store) => store.config)
   const inputHandles = useMemo(
     () =>
@@ -122,10 +96,7 @@ function CollapsedNodeContainer({
  * @param graphConfig
  * @param input
  */
-function getInputHandles(
-  graphConfig: GraphConfig,
-  input: NodeInputConfig,
-): JSX.Element {
+function getInputHandles(graphConfig, input) {
   const inputConfig = graphConfig.getInputConfig(input)
   return (
     <Handle
@@ -144,10 +115,7 @@ function getInputHandles(
  * @param graphConfig
  * @param output
  */
-function getOutputHandles(
-  graphConfig: GraphConfig,
-  output: NodeOutputConfig,
-): JSX.Element {
+function getOutputHandles(graphConfig, output) {
   const outputConfig = graphConfig.getOutputConfig(output)
   return (
     <Handle

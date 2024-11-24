@@ -1,16 +1,8 @@
 import { memo } from 'react'
-import { NodeInputConfig, ValueTypeConfigOptions } from '../config'
 import { useNodeFieldValue } from '../hooks/node'
-import { BaseInputProps } from './inputs.ts'
-
-type NodeToggleFieldProps = BaseInputProps &
-  NodeInputConfig &
-  ValueTypeConfigOptions & {
-    name: string
-  }
 
 export const NodeToggleField = memo(
-  ({ options, isConstant, slots, ...props }: NodeToggleFieldProps) => {
+  ({ options, isConstant, slots, ...props }) => {
     const Handle = slots?.Handle
 
     const [value, setValue] = useNodeFieldValue(props.id, props.defaultValue)
@@ -53,14 +45,7 @@ export const NodeToggleField = memo(
   },
 )
 
-type ToggleButtonProps = {
-  style?: React.CSSProperties
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-}
-
-function ToggleButton({ style, active, onClick, children }: ToggleButtonProps) {
+function ToggleButton({ style, active, onClick, children }) {
   return (
     <button
       style={{

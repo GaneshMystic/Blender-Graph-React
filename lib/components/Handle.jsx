@@ -1,43 +1,29 @@
-import { NodeInputConfig, ValueTypeConfig } from '../config'
-import { CSSProperties, memo, useCallback, useMemo, useRef } from 'react'
-import {
-  HandleType,
-  Position,
-  useStoreApi,
-  Handle as FlowHandle,
-  IsValidConnection,
-} from '@xyflow/react'
-import { useGraphApi } from '../context/GraphContext.tsx'
-
-type HandleProps = Pick<NodeInputConfig, 'isArray' | 'id'> &
-  Pick<ValueTypeConfig, 'shape' | 'color'> & {
-    style?: CSSProperties
-    position: Position
-    handleType: HandleType
-  }
+import { memo, useCallback, useMemo, useRef } from 'react'
+import { useStoreApi, Handle as FlowHandle } from '@xyflow/react'
+import { useGraphApi } from '../context/GraphContext.jsx'
 
 const SIZE = 8
 
-export const Handle = memo(({ style, ...props }: HandleProps) => {
+export const Handle = memo(({ style, ...props }) => {
   const graphApi = useGraphApi()
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef(null)
 
   const width = SIZE
   const height = props.isArray ? SIZE * 1.8 : SIZE
 
   const api = useStoreApi()
 
-  const isValidConnection: IsValidConnection = useCallback((connection) => {
+  const isValidConnection = useCallback((connection) => {
     const sourceNodeType = api
       .getState()
-      .nodeLookup.get(connection.source!)?.type
+      .nodeLookup.get(connection.source)?.type
     const targetNodeType = api
       .getState()
-      .nodeLookup.get(connection.target!)?.type
+      .nodeLookup.get(connection.target)?.type
     const config = graphApi.getState().config
 
-    const sourceNodeConfig = config.getNodeConfig(sourceNodeType!)
-    const targetNodeConfig = config.getNodeConfig(targetNodeType!)
+    const sourceNodeConfig = config.getNodeConfig(sourceNodeType)
+    const targetNodeConfig = config.getNodeConfig(targetNodeType)
 
     if (!sourceNodeConfig || !targetNodeConfig) {
       console.warn('Could not find node config for node type', {
@@ -48,11 +34,11 @@ export const Handle = memo(({ style, ...props }: HandleProps) => {
     }
 
     // safety: should always have an output if there's a source node
-    const sourceOutputConfig = sourceNodeConfig.outputs!.find(
+    const sourceOutputConfig = sourceNodeConfig.outputs.find(
       (v) => v.id === connection.sourceHandle,
     )
     // safety: should always have an input if there's this function is firing
-    const targetInputConfig = targetNodeConfig.inputs!.find(
+    const targetInputConfig = targetNodeConfig.inputs.find(
       (v) => v.id === connection.targetHandle,
     )
     if (!sourceOutputConfig || !targetInputConfig) {

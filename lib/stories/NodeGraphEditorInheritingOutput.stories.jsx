@@ -1,15 +1,15 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
-import { CustomNodeProps, GraphConfig } from '../config'
+import { GraphConfig } from '../config'
 import { useMemo } from 'react'
 import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
 import { NodeContainer } from '../components/NodeContainer'
-import { NodeInheritingOutputField } from '../components/NodeInheritingOutputField.tsx'
+import { NodeInheritingOutputField } from '../components/NodeInheritingOutputField.jsx'
 
 const meta = {
   title: 'Node Graph Editor',
   component: ({ nodes, edges }) => {
-    function CustomNode({ node }: CustomNodeProps) {
+    function CustomNode({ node }) {
       return (
         <NodeContainer node={node} draggable>
           <div
@@ -101,13 +101,11 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<{ nodes: Node[]; edges: Edge[] }>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const InheritingOutputField: Story = {
+export const InheritingOutputField = {
   parameters: {
     layout: 'fullscreen',
   },

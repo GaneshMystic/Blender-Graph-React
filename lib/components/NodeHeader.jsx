@@ -3,44 +3,35 @@ import { useNodeFieldValue } from '../hooks/node'
 import './NodeHeader.css'
 import { GoTriangleDown, GoTriangleRight } from 'react-icons/go'
 
-export type NodeHeaderProps = {
-  defaultTitle: string
-  color: string
-  collapsed?: boolean
-  toggleCollapsed?: () => void
-}
-
 /**
  * Location in the node's `data` object where the header value is stored.
  */
 export const HEADER_FIELD_NAME = '__header'
 
 export const NodeHeader = memo(
-  ({ defaultTitle, color, collapsed, toggleCollapsed }: NodeHeaderProps) => {
+  ({ defaultTitle, color, collapsed, toggleCollapsed }) => {
     const [_name, _setName] = useNodeFieldValue(HEADER_FIELD_NAME, defaultTitle)
     const [name, setName] = useState(_name)
     const [isEditable, setIsEditable] = useState(false) // New state to manage edit mode
 
     const showCollapsedIndicator = toggleCollapsed != null
 
-    function handleBlur(): void {
+    function handleBlur() {
       if (name) {
         _setName(name)
       }
       setIsEditable(false) // Exit edit mode on blur
     }
 
-    function handleNameChange(event: any): void {
+    function handleNameChange(event) {
       setName(event.target.value)
     }
 
-    function handleDoubleClick(): void {
+    function handleDoubleClick() {
       setIsEditable(true) // Enter edit mode on double click
     }
 
-    function handleInputKeyDown(
-      event: React.KeyboardEvent<HTMLInputElement>,
-    ): void {
+    function handleInputKeyDown(event) {
       event.key === 'Enter' && handleBlur()
     }
 

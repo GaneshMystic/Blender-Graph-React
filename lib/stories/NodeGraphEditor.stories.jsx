@@ -1,8 +1,5 @@
 import { ExampleNodeGraphEditor } from './ExampleNodeGraphEditor'
-import { Meta, StoryObj } from '@storybook/react'
-import { IGraphConfig } from '../config'
-
-const simpleConfig: IGraphConfig = {
+const simpleConfig = {
   valueTypes: {
     string: {
       name: 'String',
@@ -48,13 +45,9 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<typeof ExampleNodeGraphEditor>
+}
 
-export default meta
-
-type Story = StoryObj<typeof meta>
-
-export const Simple: Story = {
+export const Simple = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -86,7 +79,7 @@ export const Simple: Story = {
   },
 }
 
-export const InputFields: Story = {
+export const InputFields = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -188,7 +181,7 @@ export const InputFields: Story = {
   },
 }
 
-export const SelectedEdgeHighlighting: Story = {
+export const SelectedEdgeHighlighting = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -341,7 +334,7 @@ export const SelectedEdgeHighlighting: Story = {
   },
 }
 
-export const ArrayInputs: Story = {
+export const ArrayInputs = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -453,7 +446,7 @@ export const ArrayInputs: Story = {
   },
 }
 
-export const HandleSymbols: Story = {
+export const HandleSymbols = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -521,3 +514,5 @@ export const HandleSymbols: Story = {
     },
   },
 }
+
+export default meta

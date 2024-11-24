@@ -1,13 +1,4 @@
-import { CSSProperties, ReactNode, useRef, useState } from 'react'
-import { NodeInputConfig } from '../config'
-
-type NodeBaseInputFieldProps = Pick<NodeInputConfig, 'name'> &
-  React.InputHTMLAttributes<any> & {
-    setValue: (value: any) => void
-    inputStyle?: CSSProperties
-    onChange?: (value: any) => void
-    children?: ReactNode
-  }
+import { useRef, useState } from 'react'
 
 export const NodeBaseInputField = ({
   name,
@@ -27,11 +18,11 @@ export const NodeBaseInputField = ({
   min,
   step,
   placeholder,
-}: NodeBaseInputFieldProps) => {
+}) => {
   const [labelVisible, setLabelVisible] = useState(true)
-  const ref = useRef<HTMLInputElement>(null)
+  const ref = useRef(null)
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e) {
     setValue(e.target.value)
   }
 
@@ -72,7 +63,7 @@ export const NodeBaseInputField = ({
         onBlur={handleBlur}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            ref.current!.blur()
+            ref.current.blur()
           }
         }}
         onPointerDown={onPointerDown}
@@ -100,7 +91,7 @@ export const NodeBaseInputField = ({
             paddingRight: 8,
           }}
           onClick={() => {
-            ref.current!.focus()
+            ref.current.focus()
           }}
         >
           {name}

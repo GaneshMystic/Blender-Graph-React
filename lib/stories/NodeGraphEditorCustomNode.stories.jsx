@@ -1,27 +1,24 @@
-import { NodeGraphEditor } from '../NodeGraphEditor'
-import { Meta, StoryObj } from '@storybook/react'
-import { CustomNodeProps, GraphConfig } from '../config'
-import { useMemo } from 'react'
-import {
+// Import required modules
+const NodeGraphEditor = require('../NodeGraphEditor')
+const { Meta, StoryObj } = require('@storybook/react')
+const { CustomNodeProps, GraphConfig } = require('../config')
+const { useMemo } = require('react')
+const {
   Background,
   BackgroundVariant,
   Edge,
   Node,
   Position,
-} from '@xyflow/react'
-import { NodeContainer } from '../components/NodeContainer'
-import { Handle } from '../components/Handle'
+} = require('@xyflow/react')
+const { NodeContainer } = require('../components/NodeContainer')
+const { Handle } = require('../components/Handle')
 
+// Define the meta object
 const meta = {
   title: 'Node Graph Editor',
   component: ({ nodes, edges }) => {
-    function CustomNode({
-      node,
-      slots,
-      isFocused,
-      onFocus,
-      onBlur,
-    }: CustomNodeProps) {
+    // Define the CustomNode component
+    function CustomNode({ node, slots, isFocused, onFocus, onBlur }) {
       return (
         <NodeContainer node={node} draggable={!isFocused}>
           <div>
@@ -44,6 +41,7 @@ const meta = {
       )
     }
 
+    // Define the config object
     const config = useMemo(() => {
       const config = new GraphConfig({
         valueTypes: {
@@ -72,6 +70,8 @@ const meta = {
       )
       return config.validate()
     }, [])
+
+    // Return the NodeGraphEditor component
     return (
       <NodeGraphEditor
         config={config}
@@ -82,19 +82,21 @@ const meta = {
       </NodeGraphEditor>
     )
   },
+  // Define the decorators
   decorators: (Story) => (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Story />
     </div>
   ),
+  // Define the tags
   tags: ['autodocs'],
-} satisfies Meta<{ nodes: Node[]; edges: Edge[] }>
+}
 
+// Export the meta object
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const CustomNode: Story = {
+// Export the CustomNode story
+export const CustomNode = {
   parameters: {
     layout: 'fullscreen',
   },

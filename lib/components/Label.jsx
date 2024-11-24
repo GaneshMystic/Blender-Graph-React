@@ -1,11 +1,4 @@
-import { CSSProperties, ReactNode } from 'react'
-
-type LabelProps = {
-  style?: CSSProperties
-  children: ReactNode
-}
-
-export function Label({ style, children }: LabelProps) {
+export function Label({ style, children }) {
   return (
     <div
       style={{

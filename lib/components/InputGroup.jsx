@@ -1,28 +1,15 @@
-import { CSSProperties, ReactNode, useMemo } from 'react'
+import { useMemo } from 'react'
 import { GoTriangleDown } from 'react-icons/go'
-import { useNodeInputGroupState } from '../hooks/node.ts'
+import { useNodeInputGroupState } from '../hooks/node.js'
 
-type InputGroupProps = {
-  label: string
-  children: ReactNode
-  style?: CSSProperties
-  labelStyle?: CSSProperties
-  handles: ReactNode
-}
-
-export const InputGroup = ({
-  label,
-  children,
-  labelStyle,
-  handles,
-}: InputGroupProps) => {
+export const InputGroup = ({ label, children, labelStyle, handles }) => {
   const [isOpen, setIsOpen] = useNodeInputGroupState(label)
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen)
   }
 
-  const defaultStyles: Record<string, CSSProperties> = useMemo(
+  const defaultStyles = useMemo(
     () => ({
       label: {
         fontSize: '12px',

@@ -1,5 +1,4 @@
 import { ExampleNodeGraphEditor } from './ExampleNodeGraphEditor'
-import { NodeGraphHandle } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
 import { useRef } from 'react'
 import { DagreLayoutEngine } from '../layout/dagre'
@@ -15,25 +14,25 @@ const pipeline = new PipelineLayoutEngine()
 const meta = {
   title: 'Node Graph Editor',
   component: ({ config, nodes, edges }) => {
-    const ref = useRef<NodeGraphHandle>(null)
+    const ref = useRef(null)
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <div className="absolute top-3 left-3 z-10 space-x-3">
           <button
             className="bg-neutral-500 text-white px-4 rounded hover:bg-neutral-600"
-            onClick={() => ref.current!.layout(dagre)}
+            onClick={() => ref.current.layout(dagre)}
           >
             Dagre Layout
           </button>
           <button
             className="bg-neutral-500 text-white px-4 rounded hover:bg-neutral-600"
-            onClick={() => ref.current!.layout(pipeline)}
+            onClick={() => ref.current.layout(pipeline)}
           >
             Pipeline Layout
           </button>
           <button
             className="bg-neutral-500 text-white px-4 rounded hover:bg-neutral-600"
-            onClick={() => ref.current!.layout(pipelineCentered)}
+            onClick={() => ref.current.layout(pipelineCentered)}
           >
             Pipeline Centered Layout
           </button>
@@ -53,13 +52,11 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<typeof ExampleNodeGraphEditor>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const Layouts: Story = {
+export const Layouts = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -185,7 +182,7 @@ export const Layouts: Story = {
   },
 }
 
-function randomPosition(min: number, max: number) {
+function randomPosition(min, max) {
   const x = Math.random() * (max - min) + min
   const y = Math.random() * (max - min) + min
   return { x, y }

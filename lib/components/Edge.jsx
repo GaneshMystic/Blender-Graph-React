@@ -1,35 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
-  EdgeProps,
   getBezierPath,
-  Node,
-  OnSelectionChangeParams,
   useOnSelectionChange,
   useStoreApi,
   useViewport,
 } from '@xyflow/react'
-import { GraphConfig } from '../config.ts'
-import { useGraphApi } from '../context/GraphContext.tsx'
+import { useGraphApi } from '../context/GraphContext.jsx'
 
-/**
- * Edges can be highlighted in the graph if they're connected to a node that is selected.
- * We do this by identifying the following selection states for each of the edges in the
- * graph.
- */
-enum SelectionState {
-  /**
-   * Nothing is selected in the graph, including this edge
-   */
-  Nothing,
-  /**
-   * Something is selected in the graph, but this edge is not connected to it
-   */
-  Something,
-  /**
-   * Something is selected in the graph, and this edge is connected to it
-   */
-  Related,
-}
+var SelectionState
+;(function (SelectionState) {
+  SelectionState[(SelectionState['Nothing'] = 0)] = 'Nothing'
+  SelectionState[(SelectionState['Something'] = 1)] = 'Something'
+  SelectionState[(SelectionState['Related'] = 2)] = 'Related'
+})(SelectionState || (SelectionState = {}))
 
 export function Edge({
   id,
@@ -45,7 +28,7 @@ export function Edge({
   selected,
   target,
   source,
-}: EdgeProps) {
+}) {
   const [selection, setSelection] = useState(SelectionState.Nothing)
   const graphApi = useGraphApi()
   const api = useStoreApi()
@@ -62,7 +45,7 @@ export function Edge({
   // but it's how we determine whether this edge is implicitly selected by virtue
   // of its source or target being selected.
   const onSelectionChange = useCallback(
-    ({ nodes }: OnSelectionChangeParams) => {
+    ({ nodes }) => {
       if (nodes.length === 0) {
         setSelection(SelectionState.Nothing)
       } else {
@@ -158,19 +141,12 @@ export function Edge({
  * @param targetNodeId
  * @param targetHandleId
  */
-function getTargetHandleValueType(
-  config: GraphConfig,
-  nodes: Node[],
-  targetNodeId: string,
-  targetHandleId: string | null | undefined,
-): string | null {
+function getTargetHandleValueType(config, nodes, targetNodeId, targetHandleId) {
   const node = nodes.find((n) => n.id === targetNodeId)
   if (node) {
     return config
-      .getNodeConfig(node.type!)
-      .inputs?.find((input) => input.id === targetHandleId)?.valueType as
-      | string
-      | null
+      .getNodeConfig(node.type)
+      .inputs?.find((input) => input.id === targetHandleId)?.valueType
   }
   return null
 }

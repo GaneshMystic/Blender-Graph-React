@@ -1,18 +1,12 @@
 import { memo, useRef } from 'react'
-import { NodeInputConfig, ValueTypeConfigOptions } from '../config'
 import { useNodeFieldValue } from '../hooks/node'
-import { BaseInputProps } from './inputs.ts'
-
-type NodeSelectFieldProps = BaseInputProps &
-  NodeInputConfig &
-  ValueTypeConfigOptions
 
 export const NodeSelectField = memo(
-  ({ options, isConstant, slots, ...props }: NodeSelectFieldProps) => {
+  ({ options, isConstant, slots, ...props }) => {
     const Handle = slots?.Handle
     const [value, setValue] = useNodeFieldValue(props.id, props.defaultValue)
 
-    const ref = useRef<HTMLSelectElement>(null)
+    const ref = useRef(null)
 
     return (
       <div
@@ -59,7 +53,7 @@ export const NodeSelectField = memo(
             opacity: 0.5,
           }}
           onClick={() => {
-            ref.current!.focus()
+            ref.current.focus()
           }}
         >
           {props.name}

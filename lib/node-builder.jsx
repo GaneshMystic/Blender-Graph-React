@@ -1,53 +1,15 @@
-import React, {
-  FunctionComponent,
-  JSX,
-  memo,
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useMemo,
-} from 'react'
-import { Edge, Node, Position } from '@xyflow/react'
+import React, { memo, useCallback, useMemo } from 'react'
+import { Position } from '@xyflow/react'
 import { useNodesEdges } from './hooks/node'
-import {
-  GraphConfig,
-  NodeConfig,
-  NodeInputConfig,
-  NodeOutputConfig,
-} from './config'
 import { NodeLinkedField } from './components/NodeLinkedField'
 import { NodeOutputField } from './components/NodeOutputField'
 import { NodeContainer } from './components/NodeContainer'
 import { useFocusBlur } from './hooks/focus'
-import { Handle } from './components/Handle.tsx'
-import { InputGroup } from './components/InputGroup.tsx'
-import { useGraphStore } from './index.ts'
+import { Handle } from './components/Handle.jsx'
+import { InputGroup } from './components/InputGroup.jsx'
+import { useGraphStore } from './index.js'
 
-export interface NodeFocusState {
-  node: Node
-  isFocused: boolean
-  onFocus: () => void
-  onBlur: () => void
-}
-export interface NodeBodySlots {
-  bodyTop?: React.ComponentType<NodeFocusState>
-  bodyBottom?: React.ComponentType<NodeFocusState>
-  inputs: React.JSX.Element[]
-  outputs: React.JSX.Element[]
-}
-export interface NodeBodyProps extends NodeFocusState {
-  slots: NodeBodySlots
-  isFocused: boolean
-  onFocus: () => void
-  onBlur: () => void
-}
-export function NodeBody({
-  node,
-  slots,
-  isFocused,
-  onBlur,
-  onFocus,
-}: NodeBodyProps) {
+export function NodeBody({ node, slots, isFocused, onBlur, onFocus }) {
   return (
     <div
       style={{
@@ -78,10 +40,8 @@ export function NodeBody({
   )
 }
 
-export function NodeWrapper({
-  children,
-}: NodeFocusState & { children: ReactNode }) {
-  return <>{children!}</>
+export function NodeWrapper({ children }) {
+  return <>{children}</>
 }
 
 /**
@@ -90,22 +50,15 @@ export function NodeWrapper({
  * @param a {Node}
  * @param b {Node}
  */
-const isComponentChanged = (a: Node, b: Node) =>
+const isComponentChanged = (a, b) =>
   a.selected === b.selected && JSON.stringify(a.data) === JSON.stringify(b.data) // switched from lodash because bundle size was so large
 
-export function buildNode(
-  config: GraphConfig,
-  nodeConfig: NodeConfig,
-  type: string,
-): FunctionComponent<Node> {
-  function component(node: Node): ReactElement {
+export function buildNode(config, nodeConfig, type) {
+  function component(node) {
     const [isFocused, onFocus, onBlur] = useFocusBlur()
     const slots = useGraphStore((store) => store.slots)
 
-    function getInputElements(
-      inputs: NodeInputConfig[],
-      edges: Edge[],
-    ): JSX.Element[] {
+    function getInputElements(inputs, edges) {
       const targetEdges = edges.filter((edge) => edge.target === node.id)
       return inputs.map((input) =>
         getInputElement(config, targetEdges, input, onFocus, onBlur),
@@ -113,7 +66,7 @@ export function buildNode(
     }
 
     const getHandlesForInputs = useCallback(
-      (configs: NodeInputConfig[]): ReactNode => {
+      (configs) => {
         return configs.map((inputConfig) => (
           <Handle
             key={inputConfig.id}
@@ -147,10 +100,10 @@ export function buildNode(
 
     // Input groups are those inputs that should be rendered under a collapsable accordion
     const inputGroups = useMemo(() => {
-      const grouped: Record<string, NodeInputConfig[]> = inputConfigs
+      const grouped = inputConfigs
         .filter((input) => input.inputGroup)
-        .reduce((acc: Record<string, NodeInputConfig[]>, input) => {
-          const inputGroup = input.inputGroup!
+        .reduce((acc, input) => {
+          const inputGroup = input.inputGroup
           if (!acc[inputGroup]) acc[inputGroup] = []
           acc[inputGroup].push(input)
           return acc
@@ -167,7 +120,7 @@ export function buildNode(
       ))
     }, [edgeIds])
 
-    const bodySlots: NodeBodySlots = useMemo(() => {
+    const bodySlots = useMemo(() => {
       return {
         bodyTop: slots.bodyTop,
         bodyBottom: slots.bodyBottom,
@@ -211,20 +164,14 @@ export function buildNode(
   return memo(component, isComponentChanged)
 }
 
-function getInputElement(
-  graphConfig: GraphConfig,
-  edges: Edge[],
-  input: NodeInputConfig,
-  onFocus: () => void,
-  onBlur: () => void,
-): JSX.Element {
+function getInputElement(graphConfig, edges, input, onFocus, onBlur) {
   const inputConfig = graphConfig.getInputConfig(input)
 
   if (edges.find((edge) => edge.targetHandle === input.id)) {
     return <NodeLinkedField key={inputConfig.id} {...inputConfig} />
   }
 
-  const Element = graphConfig.getInputComponent(input.valueType as string)
+  const Element = graphConfig.getInputComponent(input.valueType)
   if (Element) {
     return (
       <Element
@@ -250,10 +197,7 @@ function getInputElement(
   }
 }
 
-function getOutputElements(
-  graphConfig: GraphConfig,
-  output: NodeOutputConfig,
-): JSX.Element {
+function getOutputElements(graphConfig, output) {
   const outputConfig = graphConfig.getOutputConfig(output)
   return <NodeOutputField key={output.id} {...outputConfig} />
 }

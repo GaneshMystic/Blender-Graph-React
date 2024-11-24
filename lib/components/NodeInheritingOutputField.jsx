@@ -1,16 +1,16 @@
 import { memo, useEffect, useMemo, useState } from 'react'
 import { Handle } from './Handle'
 import { Label } from './Label'
-import { ANY, NodeOutputConfig } from '../config'
+import { ANY } from '../config'
 import { Position, useHandleConnections, useStoreApi } from '@xyflow/react'
-import { getConnectionEdge } from '../utilities.ts'
-import { useGraphApi } from '../context/GraphContext.tsx'
+import { getConnectionEdge } from '../utilities.js'
+import { useGraphApi } from '../context/GraphContext.jsx'
 
 /**
  * This is similar to any other output field but the label is defined by the label
  * of the input(s) that it's connected to.
  */
-export const NodeInheritingOutputField = memo((props: NodeOutputConfig) => {
+export const NodeInheritingOutputField = memo((props) => {
   const api = useStoreApi()
   const [label, setLabel] = useState(props.name)
   const [valueType, setValueType] = useState(ANY)
@@ -34,7 +34,7 @@ export const NodeInheritingOutputField = memo((props: NodeOutputConfig) => {
           setValueType(edge?.data?.targetHandle?.valueType)
           return edge?.data?.targetHandle?.name
         })
-        .filter((v) => v as string)
+        .filter((v) => v)
         .join(', ')
       setLabel(label)
     } else {

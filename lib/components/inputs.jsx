@@ -1,4 +1,3 @@
-import { JSXElementConstructor } from 'react'
 import {
   NodeInputColorField,
   NodeInputDateField,
@@ -14,12 +13,12 @@ import {
   NodeInputTimeField,
   NodeInputUrlField,
   NodeInputWeekField,
-} from './NodeInputField.tsx'
-import { NodeCheckboxField } from './NodeCheckboxField.tsx'
-import { NodeSelectField } from './NodeSelectField.tsx'
-import { NodeToggleField } from './NodeToggleField.tsx'
+} from './NodeInputField.jsx'
+import { NodeCheckboxField } from './NodeCheckboxField.jsx'
+import { NodeSelectField } from './NodeSelectField.jsx'
+import { NodeToggleField } from './NodeToggleField.jsx'
 
-export function getBuiltinInputs(): Record<string, JSXElementConstructor<any>> {
+export function getBuiltinInputs() {
   return {
     text: NodeInputTextField,
     number: NodeInputNumberField,
@@ -39,14 +38,4 @@ export function getBuiltinInputs(): Record<string, JSXElementConstructor<any>> {
     options: NodeSelectField,
     buttonGroup: NodeToggleField,
   }
-}
-
-export type InputSlots = {
-  Handle?: JSXElementConstructor<any>
-}
-
-export type BaseInputProps = {
-  onFocus: () => void
-  onBlur: () => void
-  slots?: InputSlots
 }

@@ -1,13 +1,13 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
 import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
-import { useBuildGraphConfig } from '../hooks/config.ts'
-import { NodeHeaderProps } from '../components/NodeHeader.tsx'
+import { useBuildGraphConfig } from '../hooks/config.js'
+import { NodeHeaderProps } from '../components/NodeHeader.jsx'
 
 const meta = {
   title: 'Node Graph Editor',
   component: ({ nodes, edges }) => {
-    function CustomNodeHeader({ defaultTitle }: NodeHeaderProps) {
+    function CustomNodeHeader({ defaultTitle }) {
       return (
         <div className="bg-white text-black text-sm rounded-t text-center">
           {defaultTitle}
@@ -70,13 +70,11 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<{ nodes: Node[]; edges: Edge[] }>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const Slots: Story = {
+export const Slots = {
   parameters: {
     layout: 'fullscreen',
   },

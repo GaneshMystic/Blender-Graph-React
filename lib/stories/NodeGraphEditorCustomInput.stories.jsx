@@ -1,14 +1,14 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
 import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
-import { useBuildGraphConfig } from '../hooks/config.ts'
-import { NodeInputDecimalField } from '../components/NodeInputField.tsx'
-import { InputProps } from '../config.ts'
+import { useBuildGraphConfig } from '../hooks/config'
+import { NodeInputDecimalField } from '../components/NodeInputField'
+import { InputProps } from '../config'
 
 const meta = {
   title: 'Node Graph Editor',
   component: ({ nodes, edges }) => {
-    function CustomInput({ slots, ...config }: InputProps) {
+    function CustomInput({ slots, ...config }) {
       const Handle = slots?.Handle
       return (
         <div
@@ -80,13 +80,9 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<{ nodes: Node[]; edges: Edge[] }>
+}
 
-export default meta
-
-type Story = StoryObj<typeof meta>
-
-export const CustomInput: Story = {
+export const CustomInput = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -102,3 +98,5 @@ export const CustomInput: Story = {
     edges: [],
   },
 }
+
+export default meta

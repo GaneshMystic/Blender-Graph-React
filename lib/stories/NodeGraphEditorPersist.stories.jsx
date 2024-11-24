@@ -1,21 +1,20 @@
-import { NodeGraphHandle } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
 import { useRef, useCallback, useEffect } from 'react'
-import { ExampleNodeGraphEditor } from './ExampleNodeGraphEditor.tsx'
+import { ExampleNodeGraphEditor } from './ExampleNodeGraphEditor.jsx'
 
 const meta = {
   title: 'Node Graph Editor',
   component: ({ config, nodes, edges }) => {
-    const ref = useRef<NodeGraphHandle>(null)
+    const ref = useRef(null)
 
     const handleSave = useCallback(() => {
-      localStorage.setItem('graph', ref.current!.serialize())
+      localStorage.setItem('graph', ref.current.serialize())
     }, [ref])
 
     const handleLoad = useCallback(() => {
       const item = localStorage.getItem('graph')
       if (item) {
-        ref.current!.deserialize(item)
+        ref.current.deserialize(item)
       }
     }, [ref])
 
@@ -55,13 +54,11 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<typeof ExampleNodeGraphEditor>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const Persist: Story = {
+export const Persist = {
   parameters: {
     layout: 'fullscreen',
   },

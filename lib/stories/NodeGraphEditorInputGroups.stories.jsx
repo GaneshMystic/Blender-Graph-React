@@ -1,18 +1,18 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
 import { Meta, StoryObj } from '@storybook/react'
 import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
-import { useBuildGraphConfig } from '../hooks/config.ts'
-import { InputProps } from '../config.ts'
+import { useBuildGraphConfig } from '../hooks/config.js'
+import { InputProps } from '../config.js'
 import { Wheel } from '@uiw/react-color'
-import { useNodeFieldValue } from '../hooks/node.ts'
-import { DagreLayoutEngine } from '../layout/dagre.ts'
+import { useNodeFieldValue } from '../hooks/node.js'
+import { DagreLayoutEngine } from '../layout/dagre.js'
 
 const darge = new DagreLayoutEngine()
 
 const meta = {
   title: 'Node Graph Editor',
   component: ({ nodes, edges }) => {
-    function ColorPicker({ slots, ...config }: InputProps) {
+    function ColorPicker({ slots, ...config }) {
       const [hsva, setHsva] = useNodeFieldValue(config.id, '#f87171')
       const Handle = slots?.Handle
       return (
@@ -213,13 +213,11 @@ const meta = {
     </div>
   ),
   tags: ['autodocs'],
-} satisfies Meta<{ nodes: Node[]; edges: Edge[] }>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
-
-export const InputGroups: Story = {
+export const InputGroups = {
   parameters: {
     layout: 'fullscreen',
   },
@@ -251,7 +249,7 @@ export const InputGroups: Story = {
         position: { x: 100, y: 340 },
         data: {},
       },
-    ] as Node[],
+    ],
     edges: [
       {
         id: 'e1',

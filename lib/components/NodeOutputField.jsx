@@ -1,13 +1,10 @@
 import { memo } from 'react'
 import { Handle } from './Handle'
 import { Label } from './Label'
-import { NodeOutputConfig } from '../config'
 import { Position } from '@xyflow/react'
-import { useGraphStore } from '../context/GraphContext.tsx'
+import { useGraphStore } from '../context/GraphContext.jsx'
 
-type NodeOutputFieldProps = NodeOutputConfig
-
-export const NodeOutputField = memo((props: NodeOutputFieldProps) => {
+export const NodeOutputField = memo((props) => {
   const config = useGraphStore((store) => store.config)
   const valueTypeConfig = config.valueType(props.valueType)
   return (

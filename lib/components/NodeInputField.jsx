@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { NodeBaseInputField } from './NodeBaseInputField'
 import { useNodeFieldValue } from '../hooks/node'
-import { NodeInputConfig } from '../config'
-import { BaseInputProps } from './inputs.ts'
 import './NodeInputField.css'
-
-type NodeInputFieldProps = BaseInputProps &
-  Pick<NodeInputConfig, 'isConstant' | 'id' | 'defaultValue' | 'name'> &
-  React.InputHTMLAttributes<any>
 
 export const NodeInputField = ({
   onFocus,
@@ -18,7 +12,7 @@ export const NodeInputField = ({
   id,
   defaultValue,
   ...props
-}: NodeInputFieldProps) => {
+}) => {
   const Handle = slots?.Handle
   const [value, setValue] = useNodeFieldValue(id, defaultValue)
 
@@ -37,9 +31,6 @@ export const NodeInputField = ({
   )
 }
 
-type NodeInputDecimalFieldProps = NodeInputFieldProps & {
-  precision?: number
-}
 export const NodeInputDecimalField = ({
   precision = 3,
   onFocus,
@@ -48,19 +39,16 @@ export const NodeInputDecimalField = ({
   isConstant,
   slots,
   ...props
-}: NodeInputDecimalFieldProps) => {
+}) => {
   const Handle = slots?.Handle
-  const [value, setValue] = useNodeFieldValue<number>(
-    props.id,
-    props.defaultValue,
-  )
-  const [displayValue, setDisplayValue] = useState<string>('')
+  const [value, setValue] = useNodeFieldValue(props.id, props.defaultValue)
+  const [displayValue, setDisplayValue] = useState('')
 
   useEffect(() => {
     setDisplayValue(convertToDecimal(value))
   }, [value, precision])
 
-  function convertToDecimal(val: string | number) {
+  function convertToDecimal(val) {
     if (typeof val === 'string') {
       val = parseFloat(val)
     }
@@ -69,7 +57,7 @@ export const NodeInputDecimalField = ({
   }
 
   const handleChange = useCallback(
-    (val: any) => {
+    (val) => {
       // Allow only numeric input
       setValue(Number(convertToDecimal(val))) // Update global state
       setDisplayValue(convertToDecimal(val)) // Update local state
@@ -93,84 +81,54 @@ export const NodeInputDecimalField = ({
   )
 }
 
-type NodeInputTypedFieldProps = Omit<NodeInputFieldProps, 'type'>
-
-export const NodeInputTextField = (
-  props: NodeInputTypedFieldProps & { maxLength?: number; minLength?: number },
-) => {
+export const NodeInputTextField = (props) => {
   return <NodeInputField type="text" {...props} />
 }
 
-export const NodeInputNumberField = (
-  props: NodeInputTypedFieldProps & { max?: number; min?: number },
-) => {
+export const NodeInputNumberField = (props) => {
   return <NodeInputField type="number" {...props} />
 }
 
-export const NodeInputPasswordField = (
-  props: NodeInputTypedFieldProps & { maxLength?: number; minLength?: number },
-) => {
+export const NodeInputPasswordField = (props) => {
   return <NodeInputField type="password" {...props} />
 }
 
-export const NodeInputEmailField = (
-  props: NodeInputTypedFieldProps & { pattern?: string },
-) => {
+export const NodeInputEmailField = (props) => {
   return <NodeInputField type="email" {...props} />
 }
 
-export const NodeInputColorField = (props: NodeInputTypedFieldProps) => {
+export const NodeInputColorField = (props) => {
   return <NodeInputField type="color" {...props} />
 }
 
-export const NodeInputDateField = (
-  props: NodeInputTypedFieldProps & { max?: string; min?: string },
-) => {
+export const NodeInputDateField = (props) => {
   return <NodeInputField type="date" {...props} />
 }
 
-export const NodeInputDateTimeLocalField = (
-  props: NodeInputTypedFieldProps & { max?: string; min?: string },
-) => {
+export const NodeInputDateTimeLocalField = (props) => {
   return <NodeInputField type="datetime-local" {...props} />
 }
 
-export const NodeInputMonthField = (
-  props: NodeInputTypedFieldProps & { max?: string; min?: string },
-) => {
+export const NodeInputMonthField = (props) => {
   return <NodeInputField type="month" {...props} />
 }
 
-export const NodeInputRangeField = (
-  props: NodeInputTypedFieldProps & {
-    max?: number
-    min?: number
-    step?: number
-  },
-) => {
+export const NodeInputRangeField = (props) => {
   return <NodeInputField type="range" {...props} />
 }
 
-export const NodeInputTelField = (
-  props: NodeInputTypedFieldProps & { pattern?: string },
-) => {
+export const NodeInputTelField = (props) => {
   return <NodeInputField type="tel" {...props} />
 }
 
-export const NodeInputTimeField = (
-  props: NodeInputTypedFieldProps & { max?: string; min?: string },
-) => {
+export const NodeInputTimeField = (props) => {
   return <NodeInputField type="time" {...props} />
 }
 
-export const NodeInputUrlField = (
-  props: NodeInputTypedFieldProps & { pattern?: string },
-) => {
+export const NodeInputUrlField = (props) => {
   return <NodeInputField type="url" {...props} />
 }
 
-export const NodeInputWeekField = (
-  props: NodeInputTypedFieldProps & { max?: string; min?: string },
-) => {
+export const NodeInputWeekField = (props) => {
   return <NodeInputField type="week" {...props} />
 }
