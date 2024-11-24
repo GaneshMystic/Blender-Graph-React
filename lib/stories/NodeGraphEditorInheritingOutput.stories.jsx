@@ -1,8 +1,8 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
-import { Meta, StoryObj } from '@storybook/react'
+
 import { GraphConfig } from '../config'
 import { useMemo } from 'react'
-import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
+import { Background, BackgroundVariant } from '@xyflow/react'
 import { NodeContainer } from '../components/NodeContainer'
 import { NodeInheritingOutputField } from '../components/NodeInheritingOutputField.jsx'
 

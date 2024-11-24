@@ -1,8 +1,7 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
-import { Meta, StoryObj } from '@storybook/react'
-import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
+
+import { Background, BackgroundVariant } from '@xyflow/react'
 import { useBuildGraphConfig } from '../hooks/config.js'
-import { InputProps } from '../config.js'
 import { Wheel } from '@uiw/react-color'
 import { useNodeFieldValue } from '../hooks/node.js'
 import { DagreLayoutEngine } from '../layout/dagre.js'

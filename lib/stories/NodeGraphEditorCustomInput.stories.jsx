@@ -1,9 +1,7 @@
 import { NodeGraphEditor } from '../NodeGraphEditor'
-import { Meta, StoryObj } from '@storybook/react'
-import { Background, BackgroundVariant, Edge, Node } from '@xyflow/react'
+import { Background, BackgroundVariant } from '@xyflow/react'
 import { useBuildGraphConfig } from '../hooks/config'
 import { NodeInputDecimalField } from '../components/NodeInputField'
-import { InputProps } from '../config'
 
 const meta = {
   title: 'Node Graph Editor',

@@ -1,17 +1,9 @@
-// Import required modules
-const NodeGraphEditor = require('../NodeGraphEditor')
-const { Meta, StoryObj } = require('@storybook/react')
-const { CustomNodeProps, GraphConfig } = require('../config')
-const { useMemo } = require('react')
-const {
-  Background,
-  BackgroundVariant,
-  Edge,
-  Node,
-  Position,
-} = require('@xyflow/react')
-const { NodeContainer } = require('../components/NodeContainer')
-const { Handle } = require('../components/Handle')
+import { NodeGraphEditor } from '../NodeGraphEditor'
+import { GraphConfig } from '../config'
+import { useMemo } from 'react'
+import { Background, BackgroundVariant, Position } from '@xyflow/react'
+import { NodeContainer } from '../components/NodeContainer'
+import { Handle } from '../components/Handle'
 
 // Define the meta object
 const meta = {
