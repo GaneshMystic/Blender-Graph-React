@@ -49,6 +49,8 @@ export default [
       commonjs(),
       babel({
         exclude: 'node_modules/**',
+        babelHelpers: 'bundled',
+        presets: ['@babel/preset-env', '@babel/preset-react'], // Enables JSX support
       }),
       visualizer(),
     ],
